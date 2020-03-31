@@ -27,8 +27,17 @@ class Styles : Stylesheet() {
 
         textField {
             padding = box(10.px)
-            minWidth = 20.px
-            minHeight = 10.px
+            minWidth = 100.px
+            prefWidth = 260.px
+            minHeight = 50.px
+            prefHeight = 50.px
+        }
+
+        button {
+            minWidth = 70.px
+            prefWidth = 70.px
+            minHeight = 70.px
+            prefHeight = 70.px
         }
     }
 }
