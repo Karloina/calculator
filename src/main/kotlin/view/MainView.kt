@@ -1,17 +1,16 @@
 package view
 
-import app.Styles
-import javafx.scene.input.MouseButton
-import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
-import javafx.scene.paint.Color
+import javafx.fxml.FXML
+import javafx.scene.control.Button
+import javafx.scene.control.TextField
+import javafx.scene.input.KeyEvent
 import tornadofx.*
 
 class MainView: View("Calculator") {
 
     override val root = vbox {
         textfield {
-            filterInput { it.controlNewText.isInt() }
+          //  filterInput { it.controlNewText.isNotEmpty()) }
         }
 
         hbox {
@@ -83,7 +82,25 @@ class MainView: View("Calculator") {
             button {
                 text = ")"
             }
-
         }
+    }
+
+    @FXML
+    var display: TextField = TextField("")
+
+    init {
+        root.lookupAll(".button").forEach { b ->
+            b.setOnMouseClicked {
+                addToOutput((b as Button).text)
+            }
+        }
+
+        root.addEventFilter(KeyEvent.KEY_TYPED) {
+            addToOutput(it.character.toUpperCase().replace("\r", "="))
+        }
+    }
+
+    private fun addToOutput(x: String) {//adding to display val but not showing on textfield
+            display.text += x
     }
 }
