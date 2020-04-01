@@ -1,5 +1,6 @@
 package view
 
+import app.ONP
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Button
 import javafx.scene.input.KeyEvent
@@ -105,6 +106,7 @@ class MainView: View("Calculator") {
         }
 
         if (x == "=") {
+            ONP.main()
             //call compute function and set hashProperty to result
             return
         }

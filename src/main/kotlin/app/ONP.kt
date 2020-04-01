@@ -7,70 +7,70 @@ object ONP {
     @Throws(IOException::class)
     @JvmStatic
     fun main(args: Array<String>) {
+        convertToONP()
+    }
+    fun convertToONP() {
         var output = ""
         val input = "((2*55+1)/2)"
+        val stack = LinkedList<String>();
 
-        // clasa stosu
-        class Stack {
-            var tablicaStosu = LinkedList<String>()
-            fun push(newElement: String) {
-                tablicaStosu.add(0, newElement)
-            }
-        }
         println("Dane wejściowe : $input\n|            |\nV            V")
         val symbols: MutableMap<String, Int> = TreeMap()
+        symbols["="] = 4
         symbols["^"] = 3
+        symbols["√"] = 3
         symbols["*"] = 2
         symbols["/"] = 2
         symbols["+"] = 1
         symbols["-"] = 1
         symbols[")"] = 0
         symbols["("] = 0
-        symbols["="] = 4
-        val stack = Stack()
-        var currentCharacter: String
+
+        var currChar: String
         var i = 0
         while (i < input.length) {
             if (!Character.isDigit(input[i])) {
-                currentCharacter = input[i].toString()
+                currChar = input[i].toString()
             } else {
-                currentCharacter = ""
+                currChar = ""
                 while (Character.isDigit(input[i])) {
-                    currentCharacter += input[i]
+                    currChar += input[i]
                     i++
                 }
                 i--
             }
-            if (!symbols.containsKey(currentCharacter)) {
-                output += currentCharacter
+            if (!symbols.containsKey(currChar)) {
+                output += currChar
                 output += " "
-            } else if (currentCharacter == "=") {
-                while (!stack.tablicaStosu.isEmpty()) {
-                    output += stack.tablicaStosu.first
+            } else if (currChar == "=") {
+                while (!stack.isEmpty()) {
+                    output += stack.first
                     output += " "
-                    stack.tablicaStosu.removeFirst()
+                    stack.removeFirst()
                 }
-            } else if (currentCharacter == "(") {
-                stack.push(currentCharacter)
-            } else if (currentCharacter == ")") {
-                while (stack.tablicaStosu.first != "(") {
-                    output += stack.tablicaStosu.first
+            } else if (currChar == "(") {
+                stack.push(currChar)
+            } else if (currChar == ")") {
+                while (stack.first != "(") {
+                    output += stack.first
                     output += " "
-                    stack.tablicaStosu.removeFirst()
+                    stack.removeFirst()
                 }
-                stack.tablicaStosu.removeFirst()
+                stack.removeFirst()
             } else {
-                if (!stack.tablicaStosu.isEmpty()) {
-                    while (symbols[currentCharacter]!! < symbols[stack.tablicaStosu.first]!!) {
-                        output += stack.tablicaStosu.first
+                if (!stack.isEmpty()) {
+                    while (symbols[currChar]!! < symbols[stack.first]!!) {
+                        output += stack.first
                         output += " "
-                        stack.tablicaStosu.removeFirst()
+                        stack.removeFirst()
                     }
                 }
-                stack.push(currentCharacter)
+                stack.push(currChar)
             }
             i++
         }
         println("Dane wyjściowe : $output")
     }
+
+
 }
