@@ -106,7 +106,7 @@ class MainView: View("Calculator") {
         }
 
         if (x == "=") {
-            ONP.main()
+          //  ONP.main()
             //call compute function and set hashProperty to result
             return
         }

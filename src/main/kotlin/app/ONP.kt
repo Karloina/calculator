@@ -3,11 +3,15 @@ package app
 import java.io.IOException
 import java.util.*
 
+//todo change to double
 object ONP {
     @Throws(IOException::class)
     @JvmStatic
     fun main(args: Array<String>) {
         convertToONP()
+        val calc = Calculate()
+        val result = calc.calculate("2 55 * 1 + 2 /")
+        println("RESULT: $result")
     }
     fun convertToONP() {
         var output = ""
@@ -73,4 +77,35 @@ object ONP {
     }
 
 
+}
+
+//todo bad result, change to double
+class Calculate {
+    fun isOperator(s: String): Boolean {
+        return s == "+" || s == "-" || s == "*" || s == "/"
+    }
+
+    fun calculate(result1: String): Int {
+        var result = result1
+        //result = result.trim { it <= ' ' }
+        val values = Stack<Int>() //stos
+        val tokens = result.split(" ").toTypedArray()
+        var answer = 0
+        for (token in tokens) {
+            if (!isOperator(token)) {
+                values.add(token.toInt())
+            } else {
+                val a = values.pop()
+                val b = values.pop()
+                when (token) {
+                    "+" -> answer = a + b
+                    "-" -> answer = b - a
+                    "*" -> answer = a * b
+                    "/" -> answer = a / b
+                }
+                values.add(answer)
+            }
+        }
+        return answer
+    }
 }
