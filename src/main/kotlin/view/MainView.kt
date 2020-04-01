@@ -1,15 +1,16 @@
 package view
 
-import javafx.fxml.FXML
+import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Button
-import javafx.scene.control.TextField
 import javafx.scene.input.KeyEvent
 import tornadofx.*
 
 class MainView: View("Calculator") {
 
+    private var outputResult = SimpleStringProperty("")
+
     override val root = vbox {
-        textfield {
+        textfield(outputResult) {
           //  filterInput { it.controlNewText.isNotEmpty()) }
         }
 
@@ -85,9 +86,6 @@ class MainView: View("Calculator") {
         }
     }
 
-    @FXML
-    var display: TextField = TextField("")
-
     init {
         root.lookupAll(".button").forEach { b ->
             b.setOnMouseClicked {
@@ -100,7 +98,16 @@ class MainView: View("Calculator") {
         }
     }
 
-    private fun addToOutput(x: String) {//adding to display val but not showing on textfield
-            display.text += x
+    private fun addToOutput(x: String) {
+        if (x == "C") {
+            outputResult.set("")
+            return
+        }
+
+        if (x == "=") {
+            //call compute function and set hashProperty to result
+            return
+        }
+        outputResult.set(outputResult.value + x)
     }
 }
