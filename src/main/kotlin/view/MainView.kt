@@ -3,7 +3,6 @@ package view
 import app.ONP
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Button
-import javafx.scene.input.KeyEvent
 import tornadofx.*
 import java.lang.Exception
 
@@ -13,7 +12,7 @@ class MainView: View("Calculator") {
 
     override val root = vbox {
         textfield(outputResult) {
-          //  filterInput { it.controlNewText.isNotEmpty()) }
+//            filterInput { it.controlNewText.isNotEmpty() }
         }
 
         hbox {
@@ -79,10 +78,6 @@ class MainView: View("Calculator") {
             b.setOnMouseClicked {
                 addToOutput((b as Button).text)
             }
-        }
-
-        root.addEventFilter(KeyEvent.KEY_TYPED) {
-            addToOutput(it.character.toUpperCase().replace("\r", "="))
         }
     }
 
