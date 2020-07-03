@@ -3,32 +3,27 @@ package app
 import java.io.IOException
 import java.util.*
 
-//todo change to double
 object ONP {
     @Throws(IOException::class)
     @JvmStatic
-    fun main(args: Array<String>) {
-        convertToONP()
+    fun main(args: Array<String>) {}
+
+    fun setResult(args: Array<String>) : String{
+        val onp = convertToONP(args[0] + "=")
         val calc = Calculate()
-        val result = calc.calculate("2 55 * 1 + 2 /")
-        println("RESULT: $result")
+        return calc.calculate(onp).toString()
     }
-    fun convertToONP() {
+
+    fun convertToONP(input: String) : String {
         var output = ""
-        val input = "((2*55+1)/2)"
         val stack = LinkedList<String>();
 
-        println("Dane wejściowe : $input\n|            |\nV            V")
         val symbols: MutableMap<String, Int> = TreeMap()
-        symbols["="] = 4
-        symbols["^"] = 3
-        symbols["√"] = 3
-        symbols["*"] = 2
-        symbols["/"] = 2
-        symbols["+"] = 1
-        symbols["-"] = 1
-        symbols[")"] = 0
-        symbols["("] = 0
+        symbols["="] = 2
+        symbols["*"] = 1
+        symbols["/"] = 1
+        symbols["+"] = 0
+        symbols["-"] = 0
 
         var currChar: String
         var i = 0
@@ -52,16 +47,8 @@ object ONP {
                     output += " "
                     stack.removeFirst()
                 }
-            } else if (currChar == "(") {
-                stack.push(currChar)
-            } else if (currChar == ")") {
-                while (stack.first != "(") {
-                    output += stack.first
-                    output += " "
-                    stack.removeFirst()
-                }
-                stack.removeFirst()
-            } else {
+            }
+            else {
                 if (!stack.isEmpty()) {
                     while (symbols[currChar]!! < symbols[stack.first]!!) {
                         output += stack.first
@@ -73,21 +60,20 @@ object ONP {
             }
             i++
         }
-        println("Dane wyjściowe : $output")
+        return output
     }
-
-
 }
 
-//todo bad result, change to double
 class Calculate {
     fun isOperator(s: String): Boolean {
         return s == "+" || s == "-" || s == "*" || s == "/"
     }
 
     fun calculate(result1: String): Int {
-        var result = result1
-        //result = result.trim { it <= ' ' }
+        var result=""
+        if (result1 != null && result1.isNotEmpty() && result1[result1.length - 1] == ' ') {
+            result = result1.substring(0, result1.length - 1);
+        }
         val values = Stack<Int>() //stos
         val tokens = result.split(" ").toTypedArray()
         var answer = 0

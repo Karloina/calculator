@@ -11,12 +11,6 @@ class MainApp: App(MainView::class, Styles::class) {
     }
 }
 
-
 fun main(args: Array<String>) {
     launch<MainApp>(args)
-
-    /*  val input = Scanner(System.`in`)
-      println("chose int")
-      val T = input.nextLine()
-      println("The oldest is: $T")*/
 }

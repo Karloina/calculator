@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.Button
 import javafx.scene.input.KeyEvent
 import tornadofx.*
+import java.lang.Exception
 
 class MainView: View("Calculator") {
 
@@ -17,10 +18,10 @@ class MainView: View("Calculator") {
 
         hbox {
             button {
-                text = "√"
+                text = "+"
             }
             button {
-                text = "^2"
+                text = "-"
             }
             button {
                 text = "*"
@@ -40,7 +41,7 @@ class MainView: View("Calculator") {
                 text = "9"
             }
             button {
-                text = "+"
+                text = "="
             }
         }
         hbox {
@@ -54,7 +55,7 @@ class MainView: View("Calculator") {
                 text = "6"
             }
             button {
-                text = "-"
+                text = "C"
             }
         }
         hbox {
@@ -68,21 +69,7 @@ class MainView: View("Calculator") {
                 text = "3"
             }
             button {
-                text = "="
-            }
-        }
-        hbox {
-            button {
                 text = "0"
-            }
-            button {
-                text = "C"
-            }
-            button {
-                text = "("
-            }
-            button {
-                text = ")"
             }
         }
     }
@@ -106,9 +93,15 @@ class MainView: View("Calculator") {
         }
 
         if (x == "=") {
-          //  ONP.main()
-            //call compute function and set hashProperty to result
-            return
+            try {
+                val res = ONP.setResult(arrayOf((outputResult.get())))
+                outputResult.set(res)
+                return
+            } catch (e : Exception) {
+                outputResult.set("error")
+                return
+            }
+
         }
         outputResult.set(outputResult.value + x)
     }
